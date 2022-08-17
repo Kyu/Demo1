@@ -1,0 +1,53 @@
+<body>
+	<p id="data"></p>
+	
+	<form id="frm">
+	  <label for="fname">ID</label><br>
+	  <input type="text" id="id" name="id" value="1"><br>
+	  <label for="lname">VALUE</label><br>
+	  <input type="text" id="value" name="value" value="20"><br><br>
+	  <input id="tmp" type="submit" value="Submit" data-bcup-haslogintext="no">
+	</form>
+	
+	<script>
+    document.getElementById('frm').onsubmit = function() {return false;};
+	
+	function formatParams( params ){
+		return "?" + Object
+        .keys(params)
+        .map(function(key){
+          return key+"="+encodeURIComponent(params[key])
+        })
+        .join("&")
+	}
+
+	document.getElementById("tmp").addEventListener("click", function () {
+	
+	var endpoint = "http://localhost:8080/temp";
+	console.log("Endpoint = " + endpoint);
+	
+	var params = {
+	  id: document.getElementById("id").value, 
+	  value: document.getElementById("value").value
+	}
+	console.log("Params = " + params);
+	
+	var url = endpoint + formatParams(params)
+	console.log("Url = " + url);
+	
+    var xmlHttp = new XMLHttpRequest();
+	
+    xmlHttp.open( "GET", url, false ); // false for synchronous request
+	
+    xmlHttp.send( "localhost:8080" );
+	console.log("Content = " + xmlHttp.responseText);
+	
+	document.getElementById("data").innerHTML = xmlHttp.responseText;
+	});
+  </script>
+</body>
+
+
+<!-- document.getElementById("tmp").addEventListener("click", function () {
+  document.getElementById("data").innerHTML = "aaaaa";
+}); -->
